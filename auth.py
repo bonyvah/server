@@ -21,6 +21,12 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify a password against its hash."""
     print(f"Verifying password. Hash: {hashed_password}, Password: {plain_password}")
     
+    # Truncate password to 72 bytes for bcrypt compatibility
+    original_password = plain_password
+    if len(plain_password.encode('utf-8')) > 72:
+        plain_password = plain_password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
+        print(f"Password truncated to 72 bytes for verification")
+    
     # First try bcrypt verification
     try:
         if pwd_context.verify(plain_password, hashed_password):
@@ -30,9 +36,16 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     
     # Check if it's a SHA-256 hash (64 characters, hexadecimal)
     if len(hashed_password) == 64 and all(c in '0123456789abcdef' for c in hashed_password):
-        sha256_hash = hashlib.sha256(plain_password.encode()).hexdigest()
+        # Try with both original and truncated password for SHA-256
+        sha256_hash = hashlib.sha256(original_password.encode()).hexdigest()
         if sha256_hash == hashed_password:
             print("SHA-256 password verification successful")
+            return True
+        
+        # Also try with truncated password
+        sha256_hash_truncated = hashlib.sha256(plain_password.encode()).hexdigest()
+        if sha256_hash_truncated == hashed_password:
+            print("SHA-256 password verification successful (truncated)")
             return True
     
     # Fallback for known test passwords from seed data
@@ -41,13 +54,13 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
         "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p02ch0Snyka.GzLa2k6l.4rG": ["admin123", "manager123"],  # This hash is used for both admin and managers
     }
     
-    # Check if it's one of our known test passwords
+    # Check if it's one of our known test passwords (try both original and truncated)
     if hashed_password in known_passwords:
         allowed_passwords = known_passwords[hashed_password]
         if isinstance(allowed_passwords, list):
-            result = plain_password in allowed_passwords
+            result = original_password in allowed_passwords or plain_password in allowed_passwords
         else:
-            result = plain_password == allowed_passwords
+            result = original_password == allowed_passwords or plain_password == allowed_passwords
         print(f"Known password check result: {result}")
         return result
     
@@ -58,6 +71,11 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     """Hash a password."""
+    # Truncate password to 72 bytes for bcrypt compatibility
+    if len(password.encode('utf-8')) > 72:
+        password = password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
+        print(f"Password truncated to 72 bytes for bcrypt compatibility")
+    
     try:
         # Try bcrypt first
         return pwd_context.hash(password)

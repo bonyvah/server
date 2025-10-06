@@ -19,6 +19,9 @@ app.add_middleware(
     allow_origins=[
         "https://asmanga-uch.vercel.app",
         "https://asmanga-uch.vercel.app/",
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://server-raxe.onrender.com"
     ],  # Frontend URLs
     allow_credentials=True,
     allow_methods=["*"],
