@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/asmanga")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://asmanga_user:7nsUCGqWbzBgeEg7xFKGqODXAkErDM03@dpg-d3hp96nfte5s73d4mu9g-a/asmanga")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
