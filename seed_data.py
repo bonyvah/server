@@ -44,12 +44,12 @@ def seed_data():
         airline = models.Airline(**airline_data)
         db.add(airline)
     
-    # Create users (using simple passwords for testing - in production use proper hashing)
+    # Create users (using plain text passwords for development)
     users_data = [
-        {"id": "1", "email": "u@u.u", "password": "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj5c6mT9kKFC", "first_name": "John", "last_name": "Doe", "phone": "+1234567890", "role": "regular"},  # password: u
-        {"id": "2", "email": "admin@asmanga.com", "password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p02ch0Snyka.GzLa2k6l.4rG", "first_name": "Admin", "last_name": "User", "phone": "+1234567891", "role": "admin"},  # password: admin123
-        {"id": "3", "email": "aa_manager@asmanga.com", "password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p02ch0Snyka.GzLa2k6l.4rG", "first_name": "AA", "last_name": "Manager", "phone": "+1234567892", "role": "company_manager", "airline_id": "1"},  # password: manager123
-        {"id": "4", "email": "delta_manager@asmanga.com", "password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p02ch0Snyka.GzLa2k6l.4rG", "first_name": "Delta", "last_name": "Manager", "phone": "+1234567893", "role": "company_manager", "airline_id": "2"},  # password: manager123
+        {"id": "1", "email": "u@u.u", "password": "u", "first_name": "John", "last_name": "Doe", "phone": "+1234567890", "role": "regular"},
+        {"id": "2", "email": "admin@asmanga.com", "password": "admin123", "first_name": "Admin", "last_name": "User", "phone": "+1234567891", "role": "admin"},
+        {"id": "3", "email": "aa_manager@asmanga.com", "password": "manager123", "first_name": "AA", "last_name": "Manager", "phone": "+1234567892", "role": "company_manager", "airline_id": "1"},
+        {"id": "4", "email": "delta_manager@asmanga.com", "password": "manager123", "first_name": "Delta", "last_name": "Manager", "phone": "+1234567893", "role": "company_manager", "airline_id": "2"},
     ]
     
     for user_data in users_data:
