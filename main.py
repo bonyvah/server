@@ -16,7 +16,10 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://asmanga-uch.vercel.app/"],  # Frontend URL
+    allow_origins=[
+        "https://asmanga-uch.vercel.app",
+        "https://asmanga-uch.vercel.app/",
+    ],  # Frontend URLs
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
